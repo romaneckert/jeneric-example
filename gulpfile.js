@@ -8,7 +8,10 @@ const fs = require('fs');
 
 gulp.task('js', () => {
     return  browserify({entries: ['./app/index.js'] , debug:true})
-            .transform('babelify', {presets: ["es2015"]})
+            .transform('babelify', {
+                presets: ["es2015"],
+                global: true
+            })
             .bundle()
             .pipe(fs.createWriteStream('web/bundle.js'));
 });

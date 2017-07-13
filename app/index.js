@@ -5,7 +5,7 @@ class Main extends AbstractApplication {
 
         super();
 
-        this.kernel.init(require('./config/config'));
+        this.kernel.init(require('./config/config.js'));
 
         console.log(this.services.custom);
         console.log(this.services.custom);
