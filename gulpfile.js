@@ -6,21 +6,35 @@ const babelify = require('babelify');
 const rename = require('gulp-rename');
 const fs = require('fs');
 
+const conf = {
+
+    browserify : {
+        entries: ['./web-app/app/index.js']
+    },
+
+    bablify : {
+        presets: [require.resolve('babel-preset-es2015')],
+        global: true
+    }
+
+};
+
 gulp.task('js', () => {
-    return  browserify({entries: ['./app/index.js'] , debug:true})
-            .transform('babelify', {
-                presets: ["es2015"],
-                global: true
-            })
-            .bundle()
-            .pipe(fs.createWriteStream('web/bundle.js'));
+
+    return browserify(conf.browserify)
+        .transform('babelify', conf.bablify)
+        .bundle()
+        .pipe(fs.createWriteStream('web-app/web/bundle.js'));
+
 });
 
 gulp.task('js-uglify', () => {
-    return  gulp.src('./web/bundle.js')
-            .pipe(uglify())
-            .pipe(rename('bundle.min.js'))
-            .pipe(gulp.dest('./web/'));
+
+    return gulp.src('./web-app/web/bundle.js')
+        .pipe(uglify())
+        .pipe(rename('bundle.min.js'))
+        .pipe(gulp.dest('./web-app/web/'));
+
 });
 
 gulp.task('reload', function () {
@@ -29,13 +43,13 @@ gulp.task('reload', function () {
 
 gulp.task('connect', function() {
     return connect.server({
-        root: 'web/',
+        root: 'web-app/web/',
         livereload: true
     });
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['.app/*.js'],  gulp.series('js', 'js-uglify', 'reload'));
+    gulp.watch(['./web-app/app/*.js', './node_modules/@jeneric/**/*.js'],  gulp.series('js', 'js-uglify', 'reload'));
 });
 
 gulp.task('default', gulp.series('js', 'js-uglify', gulp.parallel('connect', 'watch')));
