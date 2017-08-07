@@ -9,39 +9,34 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * @abstract
  */
 var Abstract = function () {
-    function Abstract() {
-        _classCallCheck(this, Abstract);
+  function Abstract() {
+    _classCallCheck(this, Abstract);
+  }
+
+  /**
+   * the application kernel
+   * @returns {Kernel}
+   */
+
+
+  _createClass(Abstract, [{
+    key: 'kernel',
+    get: function get() {
+      return require('./kernel');
     }
 
     /**
-     * the application kernel
-     * @returns {Kernel}
+     * all registered components
      */
 
+  }, {
+    key: 'services',
+    get: function get() {
+      return this.kernel.services;
+    }
+  }]);
 
-    _createClass(Abstract, [{
-        key: 'kernel',
-        get: function get() {
-            return require('./kernel');
-        }
-
-        /**
-         * all registered components
-         */
-
-    }, {
-        key: 'services',
-        get: function get() {
-            return this.kernel.services;
-        }
-    }, {
-        key: 'env',
-        get: function get() {
-            return this.kernel.env;
-        }
-    }]);
-
-    return Abstract;
+  return Abstract;
 }();
 
 module.exports = Abstract;
@@ -72,6 +67,51 @@ var Application = function (_Abstract) {
 module.exports = Application;
 
 },{"./abstract":1}],3:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Abstract = require('./abstract');
+
+var Entity = function (_Abstract) {
+    _inherits(Entity, _Abstract);
+
+    function Entity() {
+        _classCallCheck(this, Entity);
+
+        var _this = _possibleConstructorReturn(this, (Entity.__proto__ || Object.getPrototypeOf(Entity)).call(this));
+
+        _this._id = null;
+        return _this;
+    }
+
+    _createClass(Entity, [{
+        key: 'id',
+        get: function get() {
+            return this._id;
+        },
+        set: function set(id) {
+            this._id = id;
+        }
+    }, {
+        key: 'entityName',
+        get: function get() {
+            return this.constructor.name.toLowerCase();
+        }
+    }]);
+
+    return Entity;
+}(Abstract);
+
+module.exports = Entity;
+
+},{"./abstract":1}],4:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -111,13 +151,7 @@ var Environment = function (_Abstract) {
 module.exports = Environment;
 
 }).call(this,require('_process'))
-},{"./abstract":1,"_process":8}],4:[function(require,module,exports){
-"use strict";
-
-module.exports = {};
-
-},{}],5:[function(require,module,exports){
-(function (global){
+},{"./abstract":1,"_process":7}],5:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -126,7 +160,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Services = require('./services');
 var Environment = require('./environment');
 
 var Kernel = function () {
@@ -134,11 +167,8 @@ var Kernel = function () {
         _classCallCheck(this, Kernel);
 
         this._config = null;
-        this._services = new Services();
+        this._services = {};
         this._env = new Environment();
-        this._initialized = false;
-
-        Object.assign(global, require('./globals'));
     }
 
     _createClass(Kernel, [{
@@ -157,8 +187,6 @@ var Kernel = function () {
 
                 this._services[key] = new service.module(service.config);
             }
-
-            this._initialized = true;
         }
     }, {
         key: 'config',
@@ -168,9 +196,6 @@ var Kernel = function () {
     }, {
         key: 'services',
         get: function get() {
-
-            if (!this._initialized) throw new Error('kernel not initialized, please call kernel.init');
-
             return this._services;
         }
     }, {
@@ -185,8 +210,7 @@ var Kernel = function () {
 
 module.exports = new Kernel();
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./environment":3,"./globals":4,"./services":7}],6:[function(require,module,exports){
+},{"./environment":4}],6:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -212,40 +236,6 @@ var Service = function (_Abstract) {
 module.exports = Service;
 
 },{"./abstract":1}],7:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Services = function () {
-    function Services() {
-        _classCallCheck(this, Services);
-
-        return new Proxy(this, this);
-    }
-
-    _createClass(Services, [{
-        key: 'set',
-        value: function set(target, serviceKey, instance, reciever) {
-            if ('undefined' !== typeof this['_' + serviceKey]) throw new Error('service ' + serviceKey + ' already exists');
-            this['_' + serviceKey] = instance;
-            return true;
-        }
-    }, {
-        key: 'get',
-        value: function get(target, serviceKey) {
-            if ('undefined' === typeof this['_' + serviceKey]) throw new Error('service ' + serviceKey + ' not exists, please check your config.js');
-            return this['_' + serviceKey];
-        }
-    }]);
-
-    return Services;
-}();
-
-module.exports = Services;
-
-},{}],8:[function(require,module,exports){
 'use strict';
 
 // shim for using process in browser
@@ -434,7 +424,7 @@ process.umask = function () {
     return 0;
 };
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -453,7 +443,7 @@ module.exports = {
     }
 };
 
-},{"../service/custom":13,"@jeneric/logger/web":15}],10:[function(require,module,exports){
+},{"../service/custom":12,"@jeneric/logger/web":15}],9:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -492,7 +482,7 @@ var Application = function (_AbstractApplication) {
 
 module.exports = Application;
 
-},{"@jeneric/core/application":2}],11:[function(require,module,exports){
+},{"@jeneric/core/application":2}],10:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -517,8 +507,10 @@ var Service = function (_AbstractService) {
 
 module.exports = Service;
 
-},{"@jeneric/core/service":6}],12:[function(require,module,exports){
+},{"@jeneric/core/service":6}],11:[function(require,module,exports){
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -538,20 +530,26 @@ var Main = function (_Application) {
 
         _this.kernel.init(require('./config/config.js'));
 
-        _this.custom.test();
+        _this.logger.debug('debug message', { 1: 'asdf', 'asdf': 3 });
 
-        _this.logger.debug('debug message');
-        _this.logger.info('info message');
-        _this.logger.error('error message');
+        _this.test();
+        _this.custom.test();
         return _this;
     }
+
+    _createClass(Main, [{
+        key: 'test',
+        value: function test() {
+            this.logger.info('info message');
+        }
+    }]);
 
     return Main;
 }(Application);
 
 var main = new Main();
 
-},{"./config/config.js":9,"./core/application":10}],13:[function(require,module,exports){
+},{"./config/config.js":8,"./core/application":9}],12:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -579,7 +577,7 @@ var Custom = function (_Service) {
     _createClass(Custom, [{
         key: 'test',
         value: function test() {
-            console.log(this._config.text);
+            this.services.logger.info('custom log entry');
         }
     }]);
 
@@ -588,7 +586,7 @@ var Custom = function (_Service) {
 
 module.exports = Custom;
 
-},{"../core/service":11}],14:[function(require,module,exports){
+},{"../core/service":10}],13:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -604,7 +602,7 @@ var Service = require('@jeneric/core/service');
 var AbstractLogger = function (_Service) {
     _inherits(AbstractLogger, _Service);
 
-    function AbstractLogger(config) {
+    function AbstractLogger() {
         _classCallCheck(this, AbstractLogger);
 
         return _possibleConstructorReturn(this, (AbstractLogger.__proto__ || Object.getPrototypeOf(AbstractLogger)).call(this));
@@ -632,7 +630,122 @@ var AbstractLogger = function (_Service) {
 
 module.exports = AbstractLogger;
 
-},{"@jeneric/core/service":6}],15:[function(require,module,exports){
+},{"@jeneric/core/service":6}],14:[function(require,module,exports){
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Entity = require('@jeneric/core/entity');
+
+var Log = function (_Entity) {
+    _inherits(Log, _Entity);
+
+    function Log(message, meta, type) {
+        _classCallCheck(this, Log);
+
+        var _this = _possibleConstructorReturn(this, (Log.__proto__ || Object.getPrototypeOf(Log)).call(this));
+
+        switch (typeof message === 'undefined' ? 'undefined' : _typeof(message)) {
+            case 'string':
+                message = String(message.split("\n"));
+                break;
+            case 'object':
+                message = [JSON.stringify(message)];
+                break;
+            case 'undefined':
+                message = null;
+                break;
+            default:
+                message = [String(message)];
+                break;
+        }
+
+        switch (typeof meta === 'undefined' ? 'undefined' : _typeof(meta)) {
+            case 'string':
+                meta = String(meta.split("\n"));
+                break;
+            case 'object':
+                meta = JSON.stringify(meta);
+                break;
+            case 'undefined':
+                meta = null;
+                break;
+            default:
+                meta = String(meta);
+                break;
+        }
+
+        _this._message = message;
+        _this._meta = meta;
+        _this._type = type;
+
+        _this._date = new Date();
+        _this._callStack = 'undefined' === typeof new Error().stack ? null : new Error().stack;
+        return _this;
+    }
+
+    _createClass(Log, [{
+        key: 'date',
+        get: function get() {
+            return this._date;
+        }
+    }, {
+        key: 'dateString',
+        get: function get() {
+            return ('0' + this.date.getDate()).slice(-2) + '-' + ('0' + (this.date.getMonth() + 1)).slice(-2) + '-' + this.date.getFullYear() + ' ' + this.date.toTimeString().slice(0, 8);
+        }
+    }, {
+        key: 'message',
+        get: function get() {
+            return this._message;
+        }
+    }, {
+        key: 'type',
+        get: function get() {
+            return this._type;
+        }
+    }, {
+        key: 'callStack',
+        get: function get() {
+            return this._callStack;
+        }
+    }, {
+        key: 'meta',
+        get: function get() {
+            return this._meta;
+        }
+    }, {
+        key: 'module',
+        get: function get() {
+
+            if (null === this._callStack) return null;
+
+            var module = this.callStack.split("at")[4].split('(')[0].trim();
+
+            return 0 === module.indexOf('new') ? module.replace('new ', '') + '.constructor' : module;
+        }
+    }, {
+        key: 'longMessage',
+        get: function get() {
+
+            return '[' + this.dateString + '] [' + this.type + ']' + (null !== this.module ? ' [' + this.module + ']' : '') + ' ' + this.message + (null !== this.meta ? ' [' + this.meta + ']' : '') + (null !== this.callStack ? ' [' + this.callStack.split("at")[4].match(/\w+\.js:\d+:\d+|\w+\.\w+\.js:\d+:\d+/g)[0] + ']' : '');
+        }
+    }]);
+
+    return Log;
+}(Entity);
+
+module.exports = Log;
+
+},{"@jeneric/core/entity":3}],15:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -644,11 +757,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AbstractLogger = require('./abstract-logger');
+var Log = require('./entity/log');
 
 var Logger = function (_AbstractLogger) {
     _inherits(Logger, _AbstractLogger);
 
-    function Logger(config) {
+    function Logger() {
         _classCallCheck(this, Logger);
 
         return _possibleConstructorReturn(this, (Logger.__proto__ || Object.getPrototypeOf(Logger)).call(this));
@@ -657,7 +771,14 @@ var Logger = function (_AbstractLogger) {
     _createClass(Logger, [{
         key: '_log',
         value: function _log(data, meta, type) {
-            console.log(data, meta, type);
+
+            var log = new Log(data, meta, type);
+
+            if ('error' === log.type) {
+                console.error(log.longMessage);
+            } else {
+                console.log(log.longMessage);
+            }
         }
     }]);
 
@@ -666,4 +787,4 @@ var Logger = function (_AbstractLogger) {
 
 module.exports = Logger;
 
-},{"./abstract-logger":14}]},{},[12]);
+},{"./abstract-logger":13,"./entity/log":14}]},{},[11]);

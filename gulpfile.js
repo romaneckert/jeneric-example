@@ -13,7 +13,7 @@ const conf = {
     },
 
     bablify : {
-        presets: [require.resolve('babel-preset-es2015')],
+        presets: [[require.resolve('babel-preset-es2015')]],
         global: true
     }
 
@@ -24,15 +24,15 @@ gulp.task('js', () => {
     return browserify(conf.browserify)
         .transform('babelify', conf.bablify)
         .bundle()
-        .pipe(fs.createWriteStream('web-app/web/bundle.js'));
+        .pipe(fs.createWriteStream('web-app/web/index.js'));
 
 });
 
 gulp.task('js-uglify', () => {
 
-    return gulp.src('./web-app/web/bundle.js')
+    return gulp.src('./web-app/web/index.js')
         .pipe(uglify())
-        .pipe(rename('bundle.min.js'))
+        .pipe(rename('index.min.js'))
         .pipe(gulp.dest('./web-app/web/'));
 
 });

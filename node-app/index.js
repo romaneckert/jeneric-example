@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const Application = require('./core/application');
 
 class Main extends Application {
@@ -7,7 +8,7 @@ class Main extends Application {
 
         this.kernel.init(require('./config/config.js'));
 
-        this.logger.debug('debug message', {1:'asdf','asdf':3});
+        this.logger.debug('start application');
 
         this.test();
         this.custom.test();
