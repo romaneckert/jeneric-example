@@ -4,12 +4,16 @@ module.exports = {
             active : true,
             module : require('@jeneric/logger/web')
         },
+        entities : {
+            active : true,
+            module : require('@jeneric/entities/web'),
+            config : {
+                entities : ['car']
+            }
+        },
         custom : {
             active : true,
-            module : require('../service/custom'),
-            config : {
-                text : 'blub'
-            }
+            module : require('../service/custom')
         }
     }
 };
