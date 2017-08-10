@@ -8,10 +8,6 @@ class Car extends Entity {
         this._color = color;
 
     }
-
-    drive() {
-        console.log('drive');
-    }
 }
 
 module.exports = Car;

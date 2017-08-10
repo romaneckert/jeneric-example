@@ -6,9 +6,14 @@ module.exports = {
         },
         entities : {
             active : true,
-            module : require('@jeneric/entities/web'),
+            module : require('@jeneric/entities'),
             config : {
-                entities : ['car']
+                entities : {
+                    car : {
+                        entity : require('../entity/car'),
+                        repository : require('../entity/repository')
+                    }
+                }
             }
         },
         custom : {

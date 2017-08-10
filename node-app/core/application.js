@@ -12,6 +12,10 @@ class Application extends AbstractApplication {
     get custom() {
         return this.services.custom;
     }
+
+    get entities() {
+        return this.services.entities;
+    }
 }
 
 module.exports = Application;
