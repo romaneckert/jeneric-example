@@ -11,7 +11,7 @@ module.exports = {
                 entities : {
                     car : {
                         entity : require('../entity/car'),
-                        repository : require('../entity/repository')
+                        repository : require('../repository/car')
                     }
                 }
             }
