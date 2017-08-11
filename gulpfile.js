@@ -16,11 +16,23 @@ const conf = {
     bablify : {
         presets: [[require.resolve('babel-preset-es2015')]],
         global: true
+    },
+
+    linkedModules : {
+        '@jeneric/core' : '../jeneric-core',
+        '@jeneric/logger' : '../jeneric-logger',
+        '@jeneric/entities' : '../jeneric-entities',
+        '@jeneric/example' : '../jeneric-example',
     }
 
 };
 
-gulp.task('refresh', function (cb) {
+const errorHandler = (err, stdout, stderr) => {
+    console.log(stdout);
+    console.log(stderr);
+};
+
+gulp.task('refresh', () => {
     exec('rm -R node_modules/@jeneric && npm install', (err, stdout, stderr) => {
         console.log(stdout);
         console.log(stderr);
@@ -28,18 +40,42 @@ gulp.task('refresh', function (cb) {
     });
 });
 
-gulp.task('link', function (cb) {
-    exec('rm -R node_modules/@jeneric && npm install && npm link @jeneric/core && npm link @jeneric/logger && npm link @jeneric/entities', (err, stdout, stderr) => {
-        console.log(stdout);
-        console.log(stderr);
-        cb(err);
-    });
+gulp.task('link', (cb) => {
+
+    exec('cd ' + conf.linkedModules['@jeneric/core'] +
+        ' && npm unlink' +
+        ' && npm link' +
+        ' && rm -R node_modules 2>&1' +
+        ' && npm install', errorHandler);
+
+    exec('cd ' + conf.linkedModules['@jeneric/logger'] +
+        ' && npm unlink' +
+        ' && npm link' +
+        ' && rm -R node_modules 2>&1' +
+        ' && npm install' +
+        ' && npm link @jeneric/core', errorHandler);
+
+    exec('cd ' + conf.linkedModules['@jeneric/entities'] +
+        ' && npm unlink' +
+        ' && npm link' +
+        ' && rm -R node_modules 2>&1' +
+        ' && npm install' +
+        ' && npm link @jeneric/core', errorHandler);
+
+    return exec('cd ' + conf.linkedModules['@jeneric/example'] +
+        ' && npm unlink' +
+        ' && npm link' +
+        ' && rm -R node_modules 2>&1' +
+        ' && npm install' +
+        ' && npm link @jeneric/core' +
+        ' && npm link @jeneric/logger' +
+        ' && npm link @jeneric/entities', errorHandler);
+
 });
 
 gulp.task('js', () => {
 
     return browserify(conf.browserify)
-        .plugin(realpathify, { filter: ['local_module'] })
         .transform('babelify', conf.bablify)
         .bundle()
         .pipe(fs.createWriteStream('web-app/web/index.js'));
