@@ -1,4 +1,4 @@
-const AbstractService = require('@jeneric/core/service');
+const AbstractService = require('@jeneric/core/abstract-service');
 
 class Service extends AbstractService {
     constructor() {

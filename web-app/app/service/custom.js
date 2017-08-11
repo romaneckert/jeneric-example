@@ -1,6 +1,6 @@
-const Service = require('../core/service');
+const AbstractService = require('@jeneric/core/abstract-service');
 
-class Custom extends Service {
+class Custom extends AbstractService {
     constructor(config) {
         super();
 

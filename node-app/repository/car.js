@@ -7,4 +7,4 @@ class CarRepository extends AbstractRepository {
     }
 }
 
-module.exports = CarRepository;
+module.exports = AbstractRepository;

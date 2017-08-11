@@ -1,4 +1,4 @@
-const AbstractApplication = require('@jeneric/core/application');
+const AbstractApplication = require('@jeneric/core/abstract-application');
 
 class Application extends AbstractApplication {
     constructor() {

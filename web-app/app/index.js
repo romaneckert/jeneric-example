@@ -6,19 +6,13 @@ class Main extends Application {
 
         super();
 
-        let kernel = require('@jeneric/core/kernel');
-
-        kernel.test = 1;
-
         this.kernel.init(require('./config/config.js'));
 
         this.logger.debug('debug message', {1:'test'});
 
         this.createCars();
 
-        console.log(this.services.entities.kernel);
-
-        //console.log(this.entities.cars.find(1));
+        console.log(this.entities.cars.find(1));
 
 
 
