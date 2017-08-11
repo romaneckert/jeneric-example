@@ -6,21 +6,31 @@ class Main extends Application {
 
         super();
 
+        let kernel = require('@jeneric/core/kernel');
+
+        kernel.test = 1;
+
         this.kernel.init(require('./config/config.js'));
 
-        this.logger.debug('debug message', {1:'asdf','asdf':3});
+        console.log(this.kernel);
+
+        this.logger.debug('debug message', {1:'test'});
 
         this.createCars();
 
-        console.log(this.entities.cars.find(1));
+        console.log(this.services.entities.kernel);
 
-        this.logger.debug('car with id 1', this.entities.cars.find(1));
-        this.logger.debug('car with id 3', this.entities.cars.find(3));
-        this.logger.debug('all cars', this.entities.cars.findAll());
+        //console.log(this.entities.cars.find(1));
 
-        let firstCar = this.entities.cars.find(1);
 
-        console.log(firstCar.drive());
+
+        //this.logger.debug('car with id 1', this.entities.cars.find(1));
+        //this.logger.debug('car with id 3', this.entities.cars.find(3));
+        //this.logger.debug('all cars', this.entities.cars.find());
+
+        //let firstCar = this.entities.cars.find(1);
+
+        //console.log(firstCar.drive());
 
     }
 

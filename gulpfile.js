@@ -5,6 +5,7 @@ const browserify = require('browserify');
 const babelify = require('babelify');
 const rename = require('gulp-rename');
 const fs = require('fs');
+const exec = require('child_process').exec;
 
 const conf = {
 
@@ -19,9 +20,26 @@ const conf = {
 
 };
 
+gulp.task('refresh', function (cb) {
+    exec('rm -R node_modules/@jeneric && npm install', (err, stdout, stderr) => {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err);
+    });
+});
+
+gulp.task('link', function (cb) {
+    exec('rm -R node_modules/@jeneric && npm install && npm link @jeneric/core && npm link @jeneric/logger && npm link @jeneric/entities', (err, stdout, stderr) => {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err);
+    });
+});
+
 gulp.task('js', () => {
 
     return browserify(conf.browserify)
+        .plugin(realpathify, { filter: ['local_module'] })
         .transform('babelify', conf.bablify)
         .bundle()
         .pipe(fs.createWriteStream('web-app/web/index.js'));

@@ -1,3 +1,5 @@
 .idea
 node_modules
 node-app/var/
+web-app/web/index.js
+web-app/web/index.min.js

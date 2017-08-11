@@ -10,11 +10,12 @@
   "repository": "https://github.com/romaneckert/jeneric-example",
   "devDependencies": {
     "@jeneric/core": "github:romaneckert/jeneric-core",
-    "@jeneric/logger": "github:romaneckert/jeneric-logger",
     "@jeneric/entities": "github:romaneckert/jeneric-entities",
+    "@jeneric/logger": "github:romaneckert/jeneric-logger",
     "babel-preset-es2015": "^6.24.1",
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
+    "child_process": "^1.0.2",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-connect": "^5.0.0",
     "gulp-rename": "^1.2.2",
