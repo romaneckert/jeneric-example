@@ -16,9 +16,12 @@ class Main extends Application {
         let car = this.entities.cars.find(1);
         car.drive();
 
-        let cars = this.entities.cars.find();
+        this.logger.debug('first car', car);
 
-        console.log(cars);
+
+        //let cars = this.entities.cars.find();
+
+        //console.log(cars);
 
 
     }

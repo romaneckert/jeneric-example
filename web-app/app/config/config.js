@@ -10,8 +10,8 @@ module.exports = {
             config : {
                 entities : {
                     car : {
-                        entity : require('../entity/car'),
-                        repository : require('../repository/car')
+                        entityClass : require('../entity/car'),
+                        repositoryClass : require('../repository/car')
                     }
                 }
             }

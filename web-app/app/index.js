@@ -12,17 +12,9 @@ class Main extends Application {
 
         this.createCars();
 
-        console.log(this.entities.cars.find(1));
-
-
-
-        //this.logger.debug('car with id 1', this.entities.cars.find(1));
-        //this.logger.debug('car with id 3', this.entities.cars.find(3));
-        //this.logger.debug('all cars', this.entities.cars.find());
-
-        //let firstCar = this.entities.cars.find(1);
-
-        //console.log(firstCar.drive());
+        this.logger.error('test error', this.entities.cars.find(1));
+        this.logger.info('test info with object', this.entities.cars.find(1));
+        this.logger.info('test info');
 
     }
 

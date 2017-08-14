@@ -15,7 +15,8 @@ const conf = {
 
     bablify : {
         presets: [[require.resolve('babel-preset-es2015')]],
-        global: true
+        global: true,
+        plugins: [require.resolve("babel-plugin-transform-object-assign")]
     },
 
     linkedModules : {
@@ -32,12 +33,13 @@ const errorHandler = (err, stdout, stderr) => {
     console.log(stderr);
 };
 
+gulp.task('execute', () => {
+    return exec('node ./node-app/index.js', errorHandler);
+});
+
+
 gulp.task('refresh', () => {
-    exec('rm -R node_modules/@jeneric && npm install', (err, stdout, stderr) => {
-        console.log(stdout);
-        console.log(stderr);
-        cb(err);
-    });
+    exec('rm -R node_modules/@jeneric && npm install', errorHandler);
 });
 
 gulp.task('link', (cb) => {
