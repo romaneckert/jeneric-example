@@ -65,8 +65,6 @@ gulp.task('link', (cb) => {
         ' && npm link @jeneric/core', errorHandler);
 
     return exec('cd ' + conf.linkedModules['@jeneric/example'] +
-        ' && npm unlink' +
-        ' && npm link' +
         ' && rm -R node_modules 2>&1' +
         ' && npm install' +
         ' && npm link @jeneric/core' +
