@@ -1,93 +1,80 @@
 const gulp = require('gulp');
 const connect = require('gulp-connect');
 const uglify = require('gulp-uglify');
+const rename = require('gulp-rename');
+const exec = require('gulp-exec');
 const browserify = require('browserify');
 const babelify = require('babelify');
-const rename = require('gulp-rename');
+
 const fs = require('fs');
-const exec = require('child_process').exec;
 
 const conf = {
 
     browserify : {
-        entries: ['./web-app/app/index.js']
+        entries: ['./web/index.js']
     },
 
     bablify : {
         presets: [[require.resolve('babel-preset-es2015')]],
         global: true,
         plugins: [require.resolve("babel-plugin-transform-object-assign")]
-    },
-
-    linkedModules : {
-        '@jeneric/core' : '../jeneric-core',
-        '@jeneric/logger' : '../jeneric-logger',
-        '@jeneric/entities' : '../jeneric-entities',
-        '@jeneric/example' : '../jeneric-example',
     }
 
 };
+
+const reportOptions = {
+    err: true,
+    stderr: true,
+    stdout: true
+}
 
 const errorHandler = (err, stdout, stderr) => {
     console.log(stdout);
     console.log(stderr);
 };
 
-gulp.task('execute', () => {
-    return exec('node ./node-app/index.js', errorHandler);
-});
-
-
 gulp.task('refresh', () => {
     exec('rm -R node_modules/@jeneric && npm install', errorHandler);
 });
 
-gulp.task('link', (cb) => {
+gulp.task('link_jeneric_core', () => {
 
-    exec('cd ' + conf.linkedModules['@jeneric/core'] +
+    let command = 'cd ../jeneric-core' +
         ' && npm unlink' +
-        ' && npm link' +
-        ' && rm -R node_modules 2>&1' +
-        ' && npm install', errorHandler);
+        ' && npm link';
 
-    exec('cd ' + conf.linkedModules['@jeneric/logger'] +
-        ' && npm unlink' +
-        ' && npm link' +
-        ' && rm -R node_modules 2>&1' +
-        ' && npm install' +
-        ' && npm link @jeneric/core', errorHandler);
-
-    exec('cd ' + conf.linkedModules['@jeneric/entities'] +
-        ' && npm unlink' +
-        ' && npm link' +
-        ' && rm -R node_modules 2>&1' +
-        ' && npm install' +
-        ' && npm link @jeneric/core', errorHandler);
-
-    return exec('cd ' + conf.linkedModules['@jeneric/example'] +
-        ' && rm -R node_modules 2>&1' +
-        ' && npm install' +
-        ' && npm link @jeneric/core' +
-        ' && npm link @jeneric/logger' +
-        ' && npm link @jeneric/entities', errorHandler);
-
+    return gulp.src('./')
+        .pipe(exec(command))
+        .pipe(exec.reporter(reportOptions));
 });
+
+gulp.task('link_modules', () => {
+
+    let command = 'rm -R node_modules/@jeneric' +
+        ' && npm link @jeneric/core';
+
+    return gulp.src('./')
+        .pipe(exec(command))
+        .pipe(exec.reporter(reportOptions));
+});
+
+gulp.task('link', gulp.series('link_jeneric_core', 'link_modules'));
 
 gulp.task('js', () => {
 
     return browserify(conf.browserify)
         .transform('babelify', conf.bablify)
         .bundle()
-        .pipe(fs.createWriteStream('web-app/web/index.js'));
+        .pipe(fs.createWriteStream('public/index.js'));
 
 });
 
 gulp.task('js-uglify', () => {
 
-    return gulp.src('./web-app/web/index.js')
+    return gulp.src('./public/index.js')
         .pipe(uglify())
         .pipe(rename('index.min.js'))
-        .pipe(gulp.dest('./web-app/web/'));
+        .pipe(gulp.dest('./public/'));
 
 });
 
@@ -97,7 +84,7 @@ gulp.task('reload', function () {
 
 gulp.task('connect', function() {
     return connect.server({
-        root: 'web-app/web/',
+        root: 'public/',
         livereload: true
     });
 });
