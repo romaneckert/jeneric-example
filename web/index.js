@@ -1,15 +1,14 @@
 const AbstractApplication = require('@jeneric/core/abstract-application');
+const config = require('./config/config.js');
 
 class Main extends AbstractApplication {
-    constructor() {
+    constructor(config) {
 
-        super();
-
-        this.kernel.init(require('./config/config.js'));
+        super(config);
 
         this.logger.debug('debug message', {1:'test'});
 
     }
 }
 
-let main = new Main();
+let main = new Main(config);

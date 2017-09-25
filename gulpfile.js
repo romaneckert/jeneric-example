@@ -83,9 +83,11 @@ gulp.task('reload', function () {
 });
 
 gulp.task('connect', function() {
+
     return connect.server({
         root: 'public/',
-        livereload: true
+        livereload: true,
+        port: 4000
     });
 });
 
