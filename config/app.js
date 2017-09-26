@@ -1,0 +1,33 @@
+module.exports = {
+    services : {
+        data : {
+            config : {
+                db : {
+                    host : '127.0.0.1',
+                    database : 'jeneric-example',
+                    user : 'postgres',
+                    password : null
+                }
+            }
+        },
+        logger : {
+            config : {
+                level: {
+                    debug: {
+                        console: true
+                    }
+                }
+            }
+        }
+    },
+    models : {
+        book : {
+            class : require('../model/book')
+        }
+    },
+    repositories : {
+        book : {
+            class : require('../repository/book')
+        }
+    }
+};

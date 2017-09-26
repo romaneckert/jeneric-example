@@ -11,7 +11,7 @@ const fs = require('fs');
 const conf = {
 
     browserify : {
-        entries: ['./web/index.js']
+        entries: ['./web.js']
     },
 
     bablify : {

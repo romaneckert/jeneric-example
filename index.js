@@ -1,19 +1,21 @@
 #!/usr/bin/env node
 const AbstractApplication = require('@jeneric/core/abstract-application');
-const config = require('./app/config/config.js');
+const config = require('./config/app.js');
 
 class Main extends AbstractApplication {
     constructor(config) {
 
         super(config);
 
-        console.log(this.classes);
+        let book = new this.models.book('Moby Dick');
 
-        let book = new this.classes.model.Book();
+        this.logger.debug('new book with title ' + book.title + ' created', book);
 
-        console.log(book);
+        this.data.persist(book);
 
-        this.logger.debug('debug message', {1:'asdf','asdf':3});
+        console.log(this.repositories);
+
+        console.log(this.repositories.book.find());
 
     }
 }
