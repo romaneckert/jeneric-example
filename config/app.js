@@ -4,9 +4,7 @@ module.exports = {
             config : {
                 db : {
                     host : '127.0.0.1',
-                    database : 'jeneric-example',
-                    user : 'postgres',
-                    password : null
+                    database : 'jeneric-example'
                 }
             }
         },
@@ -22,7 +20,10 @@ module.exports = {
     },
     models : {
         book : {
-            class : require('../model/book')
+            class : require('../model/book'),
+            schema : {
+                title : String
+            }
         }
     },
     repositories : {
