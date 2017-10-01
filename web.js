@@ -16,7 +16,7 @@ class Main extends AbstractApplication {
 
         let allBooks = this.repositories.book.find();
 
-        console.log(allBooks);
+        throw new Error('error message web');
 
     }
 }

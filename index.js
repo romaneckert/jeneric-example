@@ -13,9 +13,7 @@ class Main extends AbstractApplication {
 
         this.data.persist(book);
 
-        console.log(this.repositories);
-
-        console.log(this.repositories.book.find());
+        throw new Error('error message');
 
     }
 }
