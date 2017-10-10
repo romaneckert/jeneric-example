@@ -13,8 +13,6 @@ class Main extends AbstractApplication {
 
         this.data.persist(book);
 
-        throw new Error('error message');
-
     }
 }
 
