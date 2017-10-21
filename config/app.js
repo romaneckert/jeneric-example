@@ -20,10 +20,7 @@ module.exports = {
     },
     models : {
         book : {
-            class : require('../model/book'),
-            schema : {
-                title : String
-            }
+            class : require('../model/book')
         }
     },
     repositories : {

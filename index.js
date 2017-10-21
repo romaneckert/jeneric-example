@@ -11,8 +11,6 @@ class Main extends AbstractApplication {
 
         this.logger.debug('new book with title ' + book.title + ' created', book);
 
-        this.data.persist(book);
-
     }
 }
 
