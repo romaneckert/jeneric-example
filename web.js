@@ -11,13 +11,6 @@ class Main extends AbstractApplication {
 
         this.logger.debug('new book with title ' + book1.title + ' created', book1);
 
-        this.data.persist(book1);
-        this.data.persist(book2);
-
-        let allBooks = this.repositories.book.find();
-
-        throw new Error('error message web');
-
     }
 }
 

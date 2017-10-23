@@ -48,14 +48,8 @@ class Main extends AbstractApplication {
     }
 
     get systemCheck() {
-
         // check if data service is ready
-        if(!this.services.data.ready) {
-            return false;
-        }
-
-        return true;
-
+        return this.services.data.ready;
     }
 
 
