@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const connect = require('gulp-connect');
 const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
 const exec = require('gulp-exec');
@@ -65,34 +64,21 @@ gulp.task('js', () => {
     return browserify(conf.browserify)
         .transform('babelify', conf.bablify)
         .bundle()
-        .pipe(fs.createWriteStream('public/index.js'));
+        .pipe(fs.createWriteStream('web/index.js'));
 
 });
 
 gulp.task('js-uglify', () => {
 
-    return gulp.src('./public/index.js')
+    return gulp.src('./web/index.js')
         .pipe(uglify())
         .pipe(rename('index.min.js'))
-        .pipe(gulp.dest('./public/'));
+        .pipe(gulp.dest('./web/'));
 
-});
-
-gulp.task('reload', function () {
-    return gulp.src('./**/*.html').pipe(connect.reload());
-});
-
-gulp.task('connect', function() {
-
-    return connect.server({
-        root: 'public/',
-        livereload: true,
-        port: 4000
-    });
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['./web-app/app/*.js', './node_modules/@jeneric/**/*.js'],  gulp.series('js', 'js-uglify', 'reload'));
+    gulp.watch(['./web-app/app/*.js', './node_modules/@jeneric/**/*.js'],  gulp.series('js', 'js-uglify'));
 });
 
-gulp.task('default', gulp.series('js', 'js-uglify', gulp.parallel('connect', 'watch')));
+gulp.task('default', gulp.series('js', 'js-uglify', 'watch'));
