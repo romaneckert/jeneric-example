@@ -10,7 +10,7 @@ const fs = require('fs');
 const conf = {
 
     browserify : {
-        entries: ['./web.js']
+        entries: ['web/index.js']
     },
 
     bablify : {
@@ -64,21 +64,21 @@ gulp.task('js', () => {
     return browserify(conf.browserify)
         .transform('babelify', conf.bablify)
         .bundle()
-        .pipe(fs.createWriteStream('web/index.js'));
+        .pipe(fs.createWriteStream('public/index.js'));
 
 });
 
 gulp.task('js-uglify', () => {
 
-    return gulp.src('./web/index.js')
+    return gulp.src('./public/index.js')
         .pipe(uglify())
         .pipe(rename('index.min.js'))
-        .pipe(gulp.dest('./web/'));
+        .pipe(gulp.dest('./public/'));
 
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['./web-app/app/*.js', './node_modules/@jeneric/**/*.js'],  gulp.series('js', 'js-uglify'));
+    gulp.watch(['./web/**/*.js', './node_modules/@jeneric/**/*.js'],  gulp.series('js', 'js-uglify'));
 });
 
 gulp.task('default', gulp.series('js', 'js-uglify', 'watch'));
