@@ -1,4 +1,4 @@
-const AbstractApplication = require('@jeneric/core/abstract-application');
+const AbstractApplication = require('@jeneric/web/abstract-application');
 const config = require('./config');
 
 class Main extends AbstractApplication {

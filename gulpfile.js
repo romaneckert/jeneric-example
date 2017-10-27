@@ -17,6 +17,12 @@ const conf = {
         presets: [[require.resolve('babel-preset-es2015')]],
         global: true,
         plugins: [require.resolve("babel-plugin-transform-object-assign")]
+    },
+
+    linkedModules : {
+        'jeneric-core' : '@jeneric/core',
+        'jeneric-app' : '@jeneric/app',
+        'jeneric-web' : '@jeneric/web'
     }
 
 };
@@ -36,28 +42,30 @@ gulp.task('refresh', () => {
     exec('rm -R node_modules/@jeneric && npm install', errorHandler);
 });
 
-gulp.task('link_jeneric_core', () => {
+gulp.task('link', () => {
 
-    let command = 'cd ../jeneric-core' +
-        ' && npm unlink' +
-        ' && npm link';
+    let commands = [];
+    commands.push('rm -R node_modules/@jeneric');
 
-    return gulp.src('./')
-        .pipe(exec(command))
-        .pipe(exec.reporter(reportOptions));
+    for(let moduleName in conf.linkedModules) {
+
+        let packageName = conf.linkedModules[moduleName];
+
+        commands.push('cd ../' + moduleName + ' && npm unlink && npm link');
+        commands.push('npm link ' + packageName);
+        commands.push('echo "linked: ' + packageName + '"');
+    }
+
+    let stream = gulp.src('./');
+
+    for(let command of commands) {
+        stream = stream.pipe(exec(command));
+    }
+
+    stream = stream.pipe(exec.reporter(reportOptions));
+
+    return stream;
 });
-
-gulp.task('link_modules', () => {
-
-    let command = 'rm -R node_modules/@jeneric' +
-        ' && npm link @jeneric/core';
-
-    return gulp.src('./')
-        .pipe(exec(command))
-        .pipe(exec.reporter(reportOptions));
-});
-
-gulp.task('link', gulp.series('link_jeneric_core', 'link_modules'));
 
 gulp.task('js', () => {
 

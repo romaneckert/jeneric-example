@@ -1,4 +1,4 @@
-const AbstractModel = require('@jeneric/core/abstract-model');
+const AbstractModel = require('@jeneric/app/abstract-model');
 
 class Book extends AbstractModel {
 
