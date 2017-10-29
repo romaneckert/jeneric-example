@@ -18,9 +18,9 @@ module.exports = {
             }
         }
     },
-    models : {
+    entities : {
         book : {
-            class : require('../model/book')
+            class : require('../entity/book')
         }
     },
     repositories : {

@@ -1,6 +1,6 @@
-const AbstractModel = require('@jeneric/app/abstract-model');
+const AbstractEntity = require('@jeneric/app/abstract-entity');
 
-class Book extends AbstractModel {
+class Book extends AbstractEntity {
 
     constructor(title) {
 
