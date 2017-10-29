@@ -13,7 +13,7 @@ class Main extends AbstractApplication {
 
         this.logger.info('start application');
 
-        this.repositories.log.find({}, this._handleGetLogs.bind(this));
+        this.data.log.find({}, this._handleGetLogs.bind(this));
     }
 
     _handleGetLogs(logs) {
