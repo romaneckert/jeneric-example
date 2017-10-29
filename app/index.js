@@ -10,9 +10,8 @@ class Main extends AbstractApplication {
     }
 
     start() {
-        let book = new this.models.book('Moby Dick');
 
-        this.data.add(book);
+        this.logger.info('start application');
 
         this.repositories.log.find({}, this._handleGetLogs.bind(this));
     }
