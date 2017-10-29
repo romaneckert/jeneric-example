@@ -7,15 +7,6 @@ module.exports = {
                     database : 'jeneric-example'
                 }
             }
-        },
-        logger : {
-            config : {
-                level: {
-                    debug: {
-                        console: true
-                    }
-                }
-            }
         }
     },
     entities : {
