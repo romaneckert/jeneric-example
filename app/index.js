@@ -17,7 +17,7 @@ class Main extends AbstractApplication {
     }
 
     _handleGetLogs(logs) {
-        console.log(logs);
+        console.log(logs[0]);
     }
 }
 
