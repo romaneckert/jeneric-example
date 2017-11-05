@@ -8,8 +8,6 @@ class Main extends AbstractApplication {
 
     start() {
         this.logger.info('application started');
-
-        $(window).on('resize', this.handler['window']['resize']);
     }
 }
 

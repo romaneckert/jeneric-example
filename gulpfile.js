@@ -67,6 +67,15 @@ gulp.task('link', () => {
     return stream;
 });
 
+gulp.task('js-vendor', () => {
+
+    return gulp.src('node_modules/jquery/dist/jquery.js')
+        .pipe(uglify())
+        .pipe(rename('vendor.min.js'))
+        .pipe(gulp.dest('./public/'));
+
+});
+
 gulp.task('js', () => {
 
     return browserify(conf.browserify)
@@ -77,6 +86,8 @@ gulp.task('js', () => {
 });
 
 gulp.task('js-uglify', () => {
+
+
 
     return gulp.src('./public/index.js')
         .pipe(uglify())
@@ -89,4 +100,4 @@ gulp.task('watch', function() {
     gulp.watch(['./web/**/*.js', './node_modules/@jeneric/**/*.js'],  gulp.series('js', 'js-uglify'));
 });
 
-gulp.task('default', gulp.series('js', 'js-uglify', 'watch'));
+gulp.task('default', gulp.series('js', 'js-uglify', 'js-vendor', 'watch'));
