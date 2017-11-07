@@ -6,9 +6,11 @@ module.exports = {
             }
         },
         document : {
-            'test-button' : {
-                click : {
-                    class: require('../handler/document/test-button/click')
+            main : {
+                'test-button' : {
+                    click : {
+                        class: require('../handler/document/main/test-button/click')
+                    }
                 }
             }
         }
