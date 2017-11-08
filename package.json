@@ -1,6 +1,6 @@
 {
   "name": "@jeneric/example",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "jeneric example project",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
   "repository": "https://github.com/romaneckert/jeneric-example",
   "dependencies": {
     "@jeneric/app": "^1.0.2",
-    "@jeneric/web": "^1.1.2",
+    "@jeneric/web": "^1.1.3",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "babel-runtime": "^6.26.0",
