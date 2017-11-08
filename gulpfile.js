@@ -14,9 +14,11 @@ const conf = {
     },
 
     bablify : {
-        presets: [[require.resolve('babel-preset-es2015')]],
+        presets: [[require.resolve('babel-preset-env')]],
         global: true,
-        plugins: [require.resolve("babel-plugin-transform-object-assign")]
+        plugins: [
+            require.resolve("babel-plugin-transform-object-assign")
+        ]
     },
 
     linkedModules : {

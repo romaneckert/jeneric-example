@@ -7,7 +7,15 @@ class Main extends AbstractApplication {
     }
 
     start() {
-        this.logger.info('application started');
+        this.logger.info('info message', {test:'test'});
+        this.logger.notice('notice message', {test:'test'});
+        this.logger.warning('warning message');
+        this.logger.debug('debug message');
+        this.logger.critical('critical message');
+        this.logger.error('error message');
+        this.logger.emergency('emergency message');
+
+        throw new Error('test error');
     }
 }
 
