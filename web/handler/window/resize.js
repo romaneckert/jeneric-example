@@ -6,7 +6,7 @@ class ResizeHandler extends AbstractHandler {
     }
 
     handle(event) {
-        console.log('window resize');
+        this.logger.debug('window resize');
     }
 }
 

@@ -1,4 +1,9 @@
 module.exports = {
+    services : {
+        test : {
+            class : require('../services/test')
+        }
+    },
     handler : {
         window : {
             resize : {
