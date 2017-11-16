@@ -11,13 +11,13 @@ class Main extends AbstractApplication {
 
     start() {
 
-        this.logger.info('start application');
+        this.logger.notice('start application');
 
         this.data.log.find({}, this._handleGetLogs.bind(this));
     }
 
     _handleGetLogs(logs) {
-        console.log(logs[0]);
+        this.logger.debug(logs[0]);
     }
 }
 

@@ -6,7 +6,7 @@ class ClickHandler extends AbstractHandler {
     }
 
     handle(event) {
-        this.logger.debug('test button click');
+        this.logger.info('test button click');
     }
 }
 
