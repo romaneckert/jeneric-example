@@ -1,4 +1,4 @@
-const AbstractEntity = require('@jeneric/app/abstract-entity');
+const AbstractEntity = require('@jeneric/core/app/abstract-entity');
 
 class Book extends AbstractEntity {
 

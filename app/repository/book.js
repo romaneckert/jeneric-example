@@ -1,4 +1,4 @@
-const AbstractRepository = require('@jeneric/app/abstract-repository');
+const AbstractRepository = require('@jeneric/core/app/abstract-repository');
 
 class Book extends AbstractRepository {
 
