@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const AbstractApplication = require('@jeneric/core/app/abstract-application');
 const config = require('./config');
+const path = require('path');
 
 class Main extends AbstractApplication {
     constructor(config) {
