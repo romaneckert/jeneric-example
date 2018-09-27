@@ -2,7 +2,7 @@ module.exports = {
     module: {
         mongoose: {
             config: {
-                uri: 'mongodb://localhost/cms'
+                uri: 'mongodb://localhost/jeneric-example'
             }
         }
     }
