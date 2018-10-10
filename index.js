@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const core = require('@jeneric/core');
-const config = require('./app/config');
+const cmsConfig = require('@jeneric/cms/app/config');
+const appConfig = require('./app/config');
 
-core.init(config);
+core.init(cmsConfig, appConfig);
