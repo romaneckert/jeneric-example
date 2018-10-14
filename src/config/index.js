@@ -4,6 +4,11 @@ module.exports = {
             config: {
                 uri: 'mongodb://localhost/jeneric-example'
             }
+        },
+        server: {
+            config: {
+                routes: require('./routes')
+            }
         }
     }
 };
