@@ -1,6 +1,6 @@
-const AbstractHandler = require('@jeneric/core/src/core/abstract-handler');
+const Handler = require('@jeneric/core/handler');
 
-class BookList extends AbstractHandler {
+class BookList extends Handler {
 
     handle(req, res) {
         return res.render('book');
