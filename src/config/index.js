@@ -1,4 +1,11 @@
 module.exports = {
+    handler: {
+        book: {
+            list: {
+                class: require('../handler/book/list')
+            }
+        }
+    },
     module: {
         mongoose: {
             config: {

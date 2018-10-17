@@ -1,7 +1,7 @@
 module.exports = {
     book: {
-        path: '/book',
+        path: '/book/list',
         method: 'get',
-        class: require('../handler/book')
+        handler: 'book/list'
     }
 };
