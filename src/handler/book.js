@@ -1,6 +1,4 @@
-const Handler = require('@jeneric/core/handler');
-
-class BookList extends Handler {
+class BookList {
 
     handle(req, res) {
         return res.render('book');
