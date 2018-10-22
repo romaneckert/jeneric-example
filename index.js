@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 
+const path = require('path');
 const core = require('@jeneric/core');
-const cmsConfig = require('@jeneric/cms/src/config');
-const appConfig = require('./src/config');
 
-core.init(cmsConfig, appConfig);
-
-if (core.config) {
-    console.log(core.config.module.server.config.routes);
-}
+core.init(
+    path.join(__dirname, 'node_modules/@jeneric/cms'),
+    __dirname
+);
