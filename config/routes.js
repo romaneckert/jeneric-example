@@ -1,7 +1,7 @@
 module.exports = {
     book: {
         path: '/book/list',
-        method: 'get',
+        methods: 'get',
         handler: 'book/list'
     }
 };
