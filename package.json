@@ -1,6 +1,6 @@
 {
   "name": "@jeneric/example",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "jeneric example project",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": "https://github.com/romaneckert/jeneric-example",
   "dependencies": {
-    "@jeneric/core": "2.0.0",
-    "@jeneric/cms": "2.0.0"
+    "@jeneric/core": "2.0.1",
+    "@jeneric/cms": "2.0.2"
   }
 }
